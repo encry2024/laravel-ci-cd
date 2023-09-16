@@ -31,4 +31,6 @@ jobs:
       env:
         DB_CONNECTION: pgsql
         DB_DATABASE: laravel_test
+        DB_USERNAME: postgres
+        DB_PASSWORD: "F6f 2363107"
       run: vendor/bin/phpunit
