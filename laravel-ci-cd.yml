@@ -1,0 +1,44 @@
+name: Laravel CI/CD with Unit Testing
+
+on:
+  push:
+    branches:
+      - main  # Replace with your project's main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0'
+
+    - name: Install Dependencies
+      run: composer install
+
+    - name: Set up PostgreSQL
+      uses: postgresql/actions/setup@v2
+      with:
+        postgresql-version: '13'
+        postgresql-username: postgres
+        postgresql-password: ${{ secrets.PG_PASSWORD }}
+        postgresql-database: laravel_test  # Replace with your database name
+
+    - name: Run Migrations
+      run: php artisan migrate --force
+
+    - name: Run PHPUnit Tests
+      run: php artisan test
+
+    # Add more steps for building and deploying your Laravel app
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    # Add deployment steps here
